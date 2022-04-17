@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = localizer["Employees"];
+    ViewData["Caption"] = localizer["Manage Employee here"];
+}
+@using BlogManager.Web.Areas.Office.Models
+@model EmployeeViewModel
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Create)).Result.Succeeded)
+        {
+            <a onclick="jQueryModalGet('/office/employee/OnGetCreateOrEdit','Empolyee Create')" class="btn bg-success">
+                <i class="fa fa-plus-square"></i> Create
+            </a>
+        }
+
+        <a id="reload" class="btn btn-primary text-white">
+            <i class="fa fas fa-bolt"></i>
+            Reload
+        </a>
+    </div>
+    <div id="viewAll" class="card-body table-responsive">
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#employeeTable").DataTable();
+            loadData();
+            $('#reload').on('click', function () {
+                loadData();
+            });
+        });
+        function loadData() {
+            $('#viewAll').load('/Office/Employee/LoadAll');
+        }
+    </script>
+}

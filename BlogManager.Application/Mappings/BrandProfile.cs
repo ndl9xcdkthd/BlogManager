@@ -1,8 +1,9 @@
-﻿using BlogManager.Application.Features.Brands.Commands.Create;
-using BlogManager.Application.Features.Brands.Queries.GetAllCached;
-using BlogManager.Application.Features.Brands.Queries.GetById;
+﻿
 using BlogManager.Domain.Entities.Catalog;
 using AutoMapper;
+using BlogManager.Application.Features.Brands.Commands.Create;
+using BlogManager.Application.Features.Brands.Queries.GetById;
+using BlogManager.Application.Features.Brands.Queries.GetAllCached;
 
 namespace BlogManager.Application.Mappings
 {

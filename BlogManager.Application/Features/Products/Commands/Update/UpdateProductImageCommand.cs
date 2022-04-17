@@ -1,9 +1,9 @@
-﻿using BlogManager.Application.Exceptions;
-using BlogManager.Application.Interfaces.Repositories;
+﻿using BlogManager.Application.Interfaces.Repositories;
 using AspNetCoreHero.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using BlogManager.Application.Exceptions;
 
 namespace BlogManager.Application.Features.Products.Commands.Update
 {

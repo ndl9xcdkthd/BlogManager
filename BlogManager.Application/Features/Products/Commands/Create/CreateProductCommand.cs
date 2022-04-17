@@ -1,10 +1,10 @@
 ﻿using BlogManager.Application.Interfaces.Repositories;
-using BlogManager.Domain.Entities.Catalog;
 using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using BlogManager.Domain.Entities.Catalog;
 
 namespace BlogManager.Application.Features.Products.Commands.Create
 {
@@ -24,7 +24,10 @@ namespace BlogManager.Application.Features.Products.Commands.Create
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateProductCommandHandler(
+            IProductRepository productRepository, 
+            IUnitOfWork unitOfWork, 
+            IMapper mapper )
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;

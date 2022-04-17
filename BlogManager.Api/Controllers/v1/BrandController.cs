@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlogManager.Api.Controllers.v1
 {
+    
     public class BrandController : BaseApiController<BrandController>
     {
         [HttpGet]

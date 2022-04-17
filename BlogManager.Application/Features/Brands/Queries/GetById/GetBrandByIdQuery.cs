@@ -1,15 +1,24 @@
-﻿using BlogManager.Application.Interfaces.CacheRepositories;
+﻿
 using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using BlogManager.Application.Interfaces.CacheRepositories;
 
 namespace BlogManager.Application.Features.Brands.Queries.GetById
 {
     public class GetBrandByIdQuery : IRequest<Result<GetBrandByIdResponse>>
     {
         public int Id { get; set; }
+        public GetBrandByIdQuery(int id)
+        {
+            Id = id;
+        }
+        public GetBrandByIdQuery()
+        {
+
+        }
 
         public class GetProductByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Result<GetBrandByIdResponse>>
         {

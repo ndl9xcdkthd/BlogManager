@@ -33,6 +33,8 @@ namespace BlogManager.Web.Areas.Admin.Controllers
             allPermissions.GetPermissions(typeof(Permissions.Dashboard), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Products), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Users), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.Department), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.Employee), roleId);
             var role = await _roleManager.FindByIdAsync(roleId);
             model.RoleId = roleId;
             var claims = await _roleManager.GetClaimsAsync(role);

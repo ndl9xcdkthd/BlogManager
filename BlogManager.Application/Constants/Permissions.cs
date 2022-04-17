@@ -46,5 +46,22 @@ namespace BlogManager.Application.Constants
             public const string Edit = "Permissions.Brands.Edit";
             public const string Delete = "Permissions.Brands.Delete";
         }
+
+
+        public static class Employee
+        {
+            public const string View = "Permissions.Employee.View";
+            public const string Create = "Permissions.Employee.Create";
+            public const string Edit = "Permissions.Employee.Edit";
+            public const string Delete = "Permissions.Employee.Delete";
+        }
+
+        public static class Department
+        {
+            public const string View = "Permissions.Department.View";
+            public const string Create = "Permissions.Department.Create";
+            public const string Edit = "Permissions.Department.Edit";
+            public const string Delete = "Permissions.Department.Delete";
+        }
     }
 }

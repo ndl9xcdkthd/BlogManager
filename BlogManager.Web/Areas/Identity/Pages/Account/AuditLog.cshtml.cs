@@ -1,5 +1,4 @@
 using BlogManager.Application.DTOs;
-using BlogManager.Application.Features.ActivityLog.Queries.GetUserLogs;
 using BlogManager.Application.Interfaces.Shared;
 using BlogManager.Web.Abstractions;
 using MediatR;
@@ -25,10 +24,10 @@ namespace BlogManager.Web.Areas.Identity.Pages.Account
             _viewRenderer = viewRenderer;
         }
 
-        public async Task OnGet()
-        {
-            var response = await _mediator.Send(new GetAuditLogsQuery() { userId = _userService.UserId });
-            AuditLogResponses = response.Data;
-        }
+        //public async Task OnGet()
+        //{
+        //    var response = await _mediator.Send(new GetAuditLogsQuery() { userId = _userService.UserId });
+        //    AuditLogResponses = response.Data;
+        //}
     }
 }

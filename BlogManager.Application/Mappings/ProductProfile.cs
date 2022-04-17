@@ -1,9 +1,10 @@
-﻿using BlogManager.Application.Features.Products.Commands.Create;
-using BlogManager.Application.Features.Products.Queries.GetAllCached;
-using BlogManager.Application.Features.Products.Queries.GetAllPaged;
-using BlogManager.Application.Features.Products.Queries.GetById;
+﻿
 using BlogManager.Domain.Entities.Catalog;
 using AutoMapper;
+using BlogManager.Application.Features.Products.Commands.Create;
+using BlogManager.Application.Features.Products.Queries.GetById;
+using BlogManager.Application.Features.Products.Queries.GetAllCached;
+using BlogManager.Application.Features.Products.Queries.GetAllPaged;
 
 namespace BlogManager.Application.Mappings
 {

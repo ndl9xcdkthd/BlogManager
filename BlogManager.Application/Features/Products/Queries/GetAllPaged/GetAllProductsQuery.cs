@@ -1,6 +1,6 @@
-﻿using BlogManager.Application.Extensions;
+﻿
 using BlogManager.Application.Interfaces.Repositories;
-using BlogManager.Domain.Entities.Catalog;
+
 using AspNetCoreHero.Results;
 using MediatR;
 using System;
@@ -8,6 +8,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using BlogManager.Domain.Entities.Catalog;
+using BlogManager.Application.Extensions;
 
 namespace BlogManager.Application.Features.Products.Queries.GetAllPaged
 {
@@ -23,11 +25,11 @@ namespace BlogManager.Application.Features.Products.Queries.GetAllPaged
         }
     }
 
-    public class GGetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, PaginatedResult<GetAllProductsResponse>>
+    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, PaginatedResult<GetAllProductsResponse>>
     {
         private readonly IProductRepository _repository;
 
-        public GGetAllProductsQueryHandler(IProductRepository repository)
+        public GetAllProductsQueryHandler(IProductRepository repository)
         {
             _repository = repository;
         }

@@ -3,6 +3,7 @@ using AspNetCoreHero.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using BlogManager.Application.Interfaces.Repositories;
 
 namespace BlogManager.Application.Features.Brands.Commands.Delete
 {

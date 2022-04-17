@@ -88,6 +88,65 @@ namespace BlogManager.Infrastructure.Migrations.ApplicationDb
                     b.ToTable("Brand");
                 });
 
+            modelBuilder.Entity("BlogManager.Domain.Entities.Catalog.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("BlogManager.Domain.Entities.Catalog.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FristName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("BlogManager.Domain.Entities.Catalog.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -130,6 +189,17 @@ namespace BlogManager.Infrastructure.Migrations.ApplicationDb
                     b.HasIndex("BrandId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("BlogManager.Domain.Entities.Catalog.Employee", b =>
+                {
+                    b.HasOne("BlogManager.Domain.Entities.Catalog.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("BlogManager.Domain.Entities.Catalog.Product", b =>

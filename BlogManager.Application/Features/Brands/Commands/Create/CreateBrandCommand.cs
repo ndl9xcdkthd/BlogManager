@@ -1,10 +1,10 @@
 ﻿using BlogManager.Application.Interfaces.Repositories;
-using BlogManager.Domain.Entities.Catalog;
 using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using BlogManager.Domain.Entities.Catalog;
 
 namespace BlogManager.Application.Features.Brands.Commands.Create
 {

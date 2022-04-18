@@ -9,6 +9,7 @@ namespace BlogManager.Infrastructure.CacheKeys
     public static class EmployeeCacheKeys
     {
         public static string ListKey => "EmployeeList";
+        public static string ListDepartmentKey(int departmentId) => $"EmployeeList-{departmentId}";
 
         public static string SelectListKey => "EmployeeSelectList";
 

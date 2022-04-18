@@ -28,6 +28,11 @@ namespace BlogManager.Infrastructure.Repositories
             await _distributedCache.RemoveAsync(CacheKeys.EmployeeCacheKeys.GetKey(employee.Id));
         }
 
+        public async Task<List<Employee>> GetByDepartmentIdAsync(int departmentId)
+        {
+            return await _repository.Entities.Where(e => e.DepartmentId == departmentId).ToListAsync();
+        }
+
         public async Task<Employee> GetByIdAsync(int employeeId)
         {
             return await _repository.Entities.Where(p => p.Id == employeeId).FirstOrDefaultAsync();

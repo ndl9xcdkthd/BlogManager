@@ -21,4 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlogManager.Domain\BlogManager.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Employees\Queries\GetByDepartmentId\" />
+  </ItemGroup>
 </Project>

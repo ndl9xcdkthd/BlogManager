@@ -22,6 +22,17 @@ namespace BlogManager.Infrastructure.CacheRepositories
             _distributedCache = distributedCache;
         }
 
+        public async Task<List<Employee>> GetByDepartmentId(int departmentId)
+        {
+            //string cacheKey = EmployeeCacheKeys.ListDepartmentKey(departmentId);
+            //var employeeList = await _distributedCache.GetAsync<List<Employee>>(cacheKey);
+            //if (employeeList == null)
+            //{
+            //    employeeList = _employeeRepository.GetByDepartmentIdAsync(departmentId);
+            //}
+            return null;
+        }
+
         public async Task<Employee> GetByIdAsync(int employeeId)
         {
             string cacheKey = EmployeeCacheKeys.GetKey(employeeId);

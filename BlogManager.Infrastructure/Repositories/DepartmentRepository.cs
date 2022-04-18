@@ -26,6 +26,8 @@ namespace BlogManager.Infrastructure.Repositories
             await _repository.DeleteAsync(department);
             await _distributedCache.RemoveAsync(CacheKeys.DepartmentCacheKeys.ListKey);
             await _distributedCache.RemoveAsync(CacheKeys.DepartmentCacheKeys.GetKey(department.Id));
+            await _distributedCache.RemoveAsync(CacheKeys.EmployeeCacheKeys.ListKey);
+            await _distributedCache.RemoveAsync(CacheKeys.EmployeeCacheKeys.GetKey(department.Id));
         }
 
         public async Task<Department> GetByIdAsync(int departmentId)

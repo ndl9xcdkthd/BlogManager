@@ -14,6 +14,14 @@ namespace BlogManager.Application.Features.Departments.Queries.GetById
     public class GetDepartmentByIdQuery : IRequest<Result<GetDepartmentByIdResponse>>
     {
         public int Id { get; set; }
+        public GetDepartmentByIdQuery(int id)
+        {
+            Id = id;
+        }
+        public GetDepartmentByIdQuery()
+        {
+
+        }
 
         public class GetDepartmentByIdQueryHandler : IRequestHandler<GetDepartmentByIdQuery, Result<GetDepartmentByIdResponse>>
         {

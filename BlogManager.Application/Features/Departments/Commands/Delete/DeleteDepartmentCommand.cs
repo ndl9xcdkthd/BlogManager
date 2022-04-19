@@ -17,10 +17,12 @@ namespace BlogManager.Application.Features.Departments.Commands.Delete
         public class DeleteDepartmentCommandHander : IRequestHandler<DeleteDepartmentCommand, Result<int>>
         {
             private readonly IDepartmentRepository _departmentRepository;
+            private readonly IEmployeeRepository _employeeRepository;
             private readonly IUnitOfWork _unitOfWork;
 
-            public DeleteDepartmentCommandHander(IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork)
+            public DeleteDepartmentCommandHander(IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork,IEmployeeRepository employeeRepository)
             {
+                _employeeRepository = employeeRepository;
                 _departmentRepository = departmentRepository;
                 _unitOfWork = unitOfWork;
             }
@@ -28,6 +30,14 @@ namespace BlogManager.Application.Features.Departments.Commands.Delete
             public async Task<Result<int>> Handle(DeleteDepartmentCommand request, CancellationToken cancellationToken)
             {
                 var department = await _departmentRepository.GetByIdAsync(request.Id);
+                var getEmployee = await _employeeRepository.GetByDepartmentIdAsync(request.Id);
+                if (getEmployee.Count > 0)
+                {
+                    foreach(var employee in getEmployee)
+                    {
+                        await _employeeRepository.DeleteAsync(employee);
+                    }
+                }
                 await _departmentRepository.DeleteAsync(department);
                 await _unitOfWork.Commit(cancellationToken);
                 return Result<int>.Success(department.Id);

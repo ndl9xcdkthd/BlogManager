@@ -4,6 +4,7 @@ using BlogManager.Application.Features.Departments.Commands.Create;
 using BlogManager.Application.Features.Departments.Queries.GetById;
 using BlogManager.Application.Features.Departments.Queries.GetAllCached;
 using BlogManager.Application.Features.Departments.Queries.GetAllPaged;
+using BlogManager.Application.Features.Employees.Queries.GetByDepartmentId;
 
 namespace BlogManager.Application.Mappings
 {

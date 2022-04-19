@@ -16,6 +16,7 @@ namespace BlogManager.Application.Interfaces.Repositories
         Task<Employee> GetByIdAsync(int employeeId);
 
         Task<List<Employee>> GetByDepartmentIdAsync(int departmentId);
+        Task ReomveAsync(int Id);
 
         Task<int> InsertAsync(Employee employee);
 

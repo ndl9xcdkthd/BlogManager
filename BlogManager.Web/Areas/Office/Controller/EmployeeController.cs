@@ -4,6 +4,7 @@ using BlogManager.Application.Features.Employees.Commands.Create;
 using BlogManager.Application.Features.Employees.Commands.Delete;
 using BlogManager.Application.Features.Employees.Commands.Update;
 using BlogManager.Application.Features.Employees.Queries.GetAllCached;
+using BlogManager.Application.Features.Employees.Queries.GetByDepartmentId;
 using BlogManager.Application.Features.Employees.Queries.GetById;
 using BlogManager.Web.Abstractions;
 using BlogManager.Web.Areas.Office.Models;

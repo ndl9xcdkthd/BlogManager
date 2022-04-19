@@ -4,6 +4,7 @@ using BlogManager.Application.Features.Departments.Queries.GetAllCached;
 using BlogManager.Application.Features.Departments.Queries.GetById;
 using BlogManager.Web.Areas.Office.Models;
 using AutoMapper;
+using BlogManager.Application.Features.Employees.Queries.GetByDepartmentId;
 
 namespace BlogManager.Web.Areas.Office.Mappings
 {

@@ -3,11 +3,13 @@ using BlogManager.Application.Features.Departments.Commands.Delete;
 using BlogManager.Application.Features.Departments.Commands.Update;
 using BlogManager.Application.Features.Departments.Queries.GetAllCached;
 using BlogManager.Application.Features.Departments.Queries.GetById;
+using BlogManager.Application.Features.Employees.Queries.GetByDepartmentId;
 using BlogManager.Web.Abstractions;
 using BlogManager.Web.Areas.Office.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static BlogManager.Application.Constants.Permissions;
 
 namespace BlogManager.Web.Areas.Office.Controller
 {
@@ -31,7 +33,16 @@ namespace BlogManager.Web.Areas.Office.Controller
 
             return null;
         }
-
+        public async Task<IActionResult> LoadEmployee(int departmentId )
+        {
+            var reponse = await _mediator.Send(new GetEmployeeByDepartmentIdQuery() { DepartmentId = departmentId });
+            if (reponse.Succeeded)
+            {
+                var viewmodel = _mapper.Map<List<EmployeeViewModel>>(reponse.Data);
+                return PartialView("_LoadEmployee", viewmodel);
+            }
+            return null;
+        }
         public async Task<JsonResult> OnGetCrateOrEdit(int id = 0)
         {
             var departmentResponse = await _mediator.Send(new GetAllDepartmentCacheQuery());
@@ -83,7 +94,6 @@ namespace BlogManager.Web.Areas.Office.Controller
                     var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                     return new JsonResult(new {isValid = true, html = html});
                 }
-
                 else
                 {
                     _notify.Error(reponse.Message);
@@ -97,9 +107,12 @@ namespace BlogManager.Web.Areas.Office.Controller
             }
         }
 
+       
+
         [HttpPost]
-        public async Task<JsonResult> OnPostDelete(int id)
+        public async Task<JsonResult> OnPostDelete(int id , EmployeeViewModel employee)
         {
+            
             var deleteCommand = await _mediator.Send(new DeleteDepartmentCommand { Id = id });
             if (deleteCommand.Succeeded)
             {

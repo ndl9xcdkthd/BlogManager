@@ -50,6 +50,13 @@ namespace BlogManager.Infrastructure.Repositories
             return employee.Id;
         }
 
+        public async Task ReomveAsync(int Id)
+        {
+            var departmentId = await _repository.Entities.Where(e => e.DepartmentId == Id).ToListAsync();
+
+            
+        }
+
         public async Task UpdateAsync(Employee employee)
         {
             await _repository.UpdateAsync(employee);

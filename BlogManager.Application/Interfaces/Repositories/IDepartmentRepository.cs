@@ -20,5 +20,6 @@ namespace BlogManager.Application.Interfaces.Repositories
         Task UpdateAsync(Department department);
 
         Task DeleteAsync(Department department);
+        
     }
 }

@@ -12,7 +12,5 @@ namespace BlogManager.Application.Interfaces.CacheRepositories
         Task<List<Employee>> GetCachedListAsync();
 
         Task<Employee> GetByIdAsync(int employeeId);
-
-        Task<List<Employee>> GetByDepartmentId(int departmentId);
     }
 }

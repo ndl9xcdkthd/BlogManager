@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogManager.Domain.Entities.Catalog
+namespace BlogManager.Application.Features.Employees.Queries.GetAllBySearch
 {
-    public class Employee
+    public class GetEmployeeBySearchReponse
     {
         public int Id { get; set; }
         public string FristName { get; set; }
@@ -18,7 +17,5 @@ namespace BlogManager.Domain.Entities.Catalog
         public string Position { get; set; }
         public string Status { get; set; }
         public int DepartmentId { get; set; }
-
-        public virtual Department Department { get; set; }
     }
 }

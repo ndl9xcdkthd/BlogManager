@@ -13,6 +13,8 @@ namespace BlogManager.Application.Interfaces.Repositories
 
         Task<List<Department>> GetListAsync();
 
+        Task<List<Department>> GetListActiveAsync();
+
         Task<Department> GetByIdAsync(int departmentId);
 
         Task<int> InserAsync(Department department);
@@ -20,6 +22,8 @@ namespace BlogManager.Application.Interfaces.Repositories
         Task UpdateAsync(Department department);
 
         Task DeleteAsync(Department department);
-        
+
+        Task RemoveAsync(Department department);
+
     }
 }

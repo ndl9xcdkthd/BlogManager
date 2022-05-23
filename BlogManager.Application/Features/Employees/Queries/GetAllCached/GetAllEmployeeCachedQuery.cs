@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
+using BlogManager.Application.Extensions;
 using BlogManager.Application.Interfaces.CacheRepositories;
 using MediatR;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlogManager.Application.Features.Employees.Queries.GetAllCached
 {
+
     public class GetAllEmployeeCachedQuery : IRequest<Result<List<GetAllEmployeeCachedResponse>>>
     {
         public GetAllEmployeeCachedQuery()

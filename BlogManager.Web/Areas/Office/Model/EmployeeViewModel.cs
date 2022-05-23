@@ -14,6 +14,7 @@ namespace BlogManager.Web.Areas.Office.Models
         public string Position { get; set; }
         public string Status { get; set; }
         public int DepartmentId { get; set; }
+        public byte[] Image { get; set; }
         public SelectList Departments { get; set; }
     }
 }

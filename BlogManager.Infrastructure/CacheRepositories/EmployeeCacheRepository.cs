@@ -7,7 +7,7 @@ using AspNetCoreHero.ThrowR;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using BlogManager.Application.Extensions;
 
 namespace BlogManager.Infrastructure.CacheRepositories
 {
@@ -44,6 +44,19 @@ namespace BlogManager.Infrastructure.CacheRepositories
             if(employeeList == null)
             {
                 employeeList = await _employeeRepository.GetListAsync();
+                await _distributedCache.SetAsync(cacheKey, employeeList);
+            }
+
+            return employeeList;
+        }
+
+        public async Task<List<Employee>> GetCachedListPageAsync(DataTableAjaxPostModel model)
+        {
+            string cacheKey = EmployeeCacheKeys.ListKey;
+            var employeeList = await _distributedCache.GetAsync<List<Employee>>(cacheKey);
+            if (employeeList == null)
+            {
+                employeeList = await _employeeRepository.GetListPageAsync(model);
                 await _distributedCache.SetAsync(cacheKey, employeeList);
             }
 

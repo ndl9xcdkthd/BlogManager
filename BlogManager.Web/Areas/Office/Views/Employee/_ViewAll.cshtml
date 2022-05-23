@@ -1,5 +1,10 @@
 ﻿@using BlogManager.Web.Areas.Office.Models
 @model IEnumerable<EmployeeViewModel>
+
+ 
+<button class="btn btn-danger " id="deslesl">Delete selected</button>
+<hr />
+
 <table id="employeeTable" class="table table-striped" width="100%" cellspacing="0">
     <thead>
         <tr>
@@ -11,10 +16,15 @@
             <th>Hire Date</th>
             <th>Position</th>
             <th>Status</th>
+            
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Delete)).Result.Succeeded
                || (AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Edit)).Result.Succeeded)
             {
+               
                 <th>Actions</th>
+                 <th style="text-align:left;" class="th-custom">
+                     <input type="checkbox" id="checkall"/>
+                 </th>
             }
         </tr>
     </thead>
@@ -50,6 +60,7 @@
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Delete)).Result.Succeeded
             || (AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Edit)).Result.Succeeded)
             {
+                
                 <td text-right">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,6 +70,7 @@
                             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Edit)).Result.Succeeded)
                             {
                                 <a onclick="jQueryModalGet('/office/employee/OnGetCreateOrEdit?id=@employee.Id','Edit employee')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a>
+                                //<a onclick="jQueryModalGet('/catalog/product/OnGetCreateOrEdit?id=@product.Id','Edit Product')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a>
 
                             }
                             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Delete)).Result.Succeeded)
@@ -71,13 +83,19 @@
                         </div>
                     </div>
                 </td>
+                <td><input type="checkbox" class="checkitem" value="@employee.Id"/></td>
             }
         </tr>
         }
     </tbody>
 </table>
 <script>
+
     $(document).ready(function () {
         $("#employeeTable").DataTable();
     });
+
+    $('#checkall').change(function(){
+        $('.checkitem').prop("checked", $(this).prop("checked"))
+    })
 </script>

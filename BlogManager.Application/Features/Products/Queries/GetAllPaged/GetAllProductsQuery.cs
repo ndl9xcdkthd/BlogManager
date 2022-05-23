@@ -44,6 +44,7 @@ namespace BlogManager.Application.Features.Products.Queries.GetAllPaged
                 Rate = e.Rate,
                 Barcode = e.Barcode
             };
+
             var paginatedList = await _repository.Products
                 .Select(expression)
                 .ToPaginatedListAsync(request.PageNumber, request.PageSize);

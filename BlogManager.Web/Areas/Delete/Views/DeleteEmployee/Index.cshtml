@@ -1,0 +1,134 @@
+﻿@using BlogManager.Web.Areas.Delete.Models
+@model IEnumerable<EmployeeViewModel>
+     
+       <div class="card">
+            <div id="viewAll" class="card-body table-responsive">
+                <button class="btn btn-danger " id="deslesl">Delete selected</button>
+                <hr />
+                <table id="employeeTable" class="table table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Frist Name</th>
+                            <th>Last Name</th>
+                            <th>Gender</th>
+                            <th>Position</th>
+                            <th>Status</th>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Delete)).Result.Succeeded
+                                || (AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Edit)).Result.Succeeded)
+                            {
+                                <th>Actions</th>
+                                <th style="text-align:left;" class="th-custom">
+                                    <input type="checkbox" id="checkall"/>
+                                </th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var employee in Model)
+                        {
+                        <tr>
+                            <td>
+                                @employee.Id
+                            </td>
+                            <td>
+                                @employee.FristName
+                            </td>
+                            <td>
+                                @employee.LastName
+                            </td>
+                            <td>
+                                @employee.Gender
+                            </td>
+                            <td>
+                                @employee.Position
+                            </td>
+                            <td>
+                                @employee.Status
+                            </td>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Delete)).Result.Succeeded
+                            || (AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Edit)).Result.Succeeded)
+                            {
+                
+                                <td text-right">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action
+                                        </button>
+                                        <div class="dropdown-menu shadow animated--grow-in">
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Edit)).Result.Succeeded)
+                                            {
+                                                <a onclick="jQueryModalGet('/Delete/DeleteEmployee/OnGetCreateOrEdit?id=@employee.Id','Edit employee')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a>
+
+                                            }
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Employee.Delete)).Result.Succeeded)
+
+                                            {
+                                                <form id="form_delete_@employee.Id" asp-area="Delete" asp-controller="DeleteEmployee" method="post" asp-action="OnPostDelete" asp-route-id="@employee.Id" onsubmit="return jQueryModalDelete(this)">
+                                                    <a href="javascript:$('#form_delete_@employee.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i> Delete to sql</a>
+                                                </form>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><input type="checkbox" class="checkitem" name="employee" value="@employee.Id"/></td>
+                            }
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+      </div>
+
+
+
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+    var idArray = [];
+    var idArrayExtra = [];
+    $(document).ready(function () {
+        $("#employeeTable").DataTable();
+    });
+    $('#checkall').change(function(){
+        $('.checkitem').prop("checked", $(this).prop("checked"))
+    })
+    $('.checkitem').change(function(){
+        if($(this).prop("checked") == false){
+            $("#checkall").prop("checked",false)
+        }
+        if($(".checkitem:checked").length > 0){
+            if($(".checkitem:checked").length == $(".checkitem").length)
+            {
+                $("#checkall").prop("checked", true)
+            } 
+        }
+    })
+    var check = document.querySelectorAll('.checkitem');
+    var checkAll = document.querySelector('#checkall');
+    var checkboxes = document.getElementsByName("employee")
+        checkAll.addEventListener('change', function(){
+            if(this.checked == true){
+                for (var i = 0; i < checkboxes.length; i++){
+                    checkboxes[i].checked = true;
+                    idArrayExtra.push(checkboxes[i].value);  
+                }
+            }
+            else{
+                 for (var i = 0; i < checkboxes.length; i++){
+                   idArrayExtra = idArrayExtra.filter(e => e !== checkboxes[i].value);
+                }
+            }
+            console.log(idArray)
+        });
+        for(var checkbox of check){
+            checkbox.addEventListener('change', function(){
+
+            })
+            
+        };
+    </script>
+}
+

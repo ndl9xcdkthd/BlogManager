@@ -21,16 +21,21 @@ namespace BlogManager.Application.Features.Departments.Commands.Update
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IDepartmentRepository _departmentRepository;
+            private readonly IEmployeeRepository _employeeRepository;
 
-            public UpdateDepartmentCommandHandler(IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork)
+            public UpdateDepartmentCommandHandler(IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork, IEmployeeRepository employeeRepository)
             {
                 _unitOfWork = unitOfWork;
                 _departmentRepository = departmentRepository;
+                _employeeRepository = employeeRepository;
+
             }
 
             public async Task<Result<int>> Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
             {
                 var department = await _departmentRepository.GetByIdAsync(request.Id);
+
+                var employeeList = await _employeeRepository.GetByDepartmentIdAsync(department.Id);
 
                 if (department == null)
                 {
@@ -40,7 +45,28 @@ namespace BlogManager.Application.Features.Departments.Commands.Update
                 {
                     department.Name = request.Name;
                     department.Description = request.Description;
-                    department.Status = request.Status;
+                    if(department.Status == "Delete")
+                    {
+                        department.Status = request.Status;
+
+                        if (employeeList.Count > 0)
+                        {
+                            if (department.Status == "Active" || department.Status == "In Active")
+                            {
+                                foreach (var employee in employeeList)
+                                {
+                                    if (employee.Status == "Delete")
+                                    {
+                                        employee.Status = "Active";
+                                    }
+                                } 
+                            }
+                        }
+                    }
+                    else
+                    {
+                        department.Status = request.Status;
+                    }
 
                     await _departmentRepository.UpdateAsync(department);
                     await _unitOfWork.Commit(cancellationToken);

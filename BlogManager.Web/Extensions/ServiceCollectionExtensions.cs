@@ -39,7 +39,7 @@ namespace BlogManager.Web.Extensions
             {
                 var cultures = new List<CultureInfo> {
         new CultureInfo("en"),
-         new CultureInfo("ar"),
+        new CultureInfo("ar"),
         new CultureInfo("fr")
                 };
                 options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");

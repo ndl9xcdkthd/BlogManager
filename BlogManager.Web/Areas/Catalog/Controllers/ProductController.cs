@@ -4,6 +4,7 @@ using BlogManager.Application.Features.Products.Commands.Create;
 using BlogManager.Application.Features.Products.Commands.Delete;
 using BlogManager.Application.Features.Products.Commands.Update;
 using BlogManager.Application.Features.Products.Queries.GetAllCached;
+using BlogManager.Application.Features.Products.Queries.GetAllPaged;
 using BlogManager.Application.Features.Products.Queries.GetById;
 using BlogManager.Web.Abstractions;
 using BlogManager.Web.Areas.Catalog.Models;
@@ -21,22 +22,49 @@ namespace BlogManager.Web.Areas.Catalog.Controllers
     [Area("Catalog")]
     public class ProductController : BaseController<ProductController>
     {
-        public IActionResult Index()
+        private int _pageSize;
+
+        public async Task<IActionResult> IndexAsync(int page)
         {
-            var model = new ProductViewModel();
+            var _pageSize = 2;
+
+            var response = await _mediator.Send(new GetAllProductsCachedQuery());
+
+            var product = _mapper.Map<List<ProductViewModel>>(response.Data);
+
+            var model = new ProductPage();
+
+            model.TotalItem = product.Count;
+
+            var currentPageNum = page <= 0 ? 1 : page;
+
+            var offset = (_pageSize * currentPageNum) - _pageSize;
+
+            while (currentPageNum > 1 && offset >= model.TotalItem)
+            {
+                currentPageNum--;
+                offset = (_pageSize * currentPageNum) - _pageSize;
+            }
+
+            model.ProductItem = product.Skip(offset).Take(_pageSize).ToList();
+            model.PageSize = _pageSize;
+            model.Page = currentPageNum;
             return View(model);
         }
 
-        public async Task<IActionResult> LoadAll()
-        {
-            var response = await _mediator.Send(new GetAllProductsCachedQuery());
-            if (response.Succeeded)
-            {
-                var viewModel = _mapper.Map<List<ProductViewModel>>(response.Data);
-                return PartialView("_ViewAll", viewModel);
-            }
-            return null;
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> LoadAll(int page)
+        //{
+           
+
+        //   return PartialView("_ViewAll", model);
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> LoadAll()
+        //{
+        //    return View("Index");
+        //}
 
         [Authorize(Policy = Permissions.Users.View)]
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)

@@ -109,6 +109,29 @@
                         </li>
                     </ul>
                 </li>
+                <li is-active-route asp-area="Delete" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Delete" class="nav-link">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            @localizer["Delete"]
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Delete" asp-controller="Department" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@localizer["Department"]</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Delete" asp-controller="DeleteEmployee" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@localizer["DeleteEmployee"]</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>

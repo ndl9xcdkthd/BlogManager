@@ -15,5 +15,6 @@ namespace BlogManager.Application.Features.Departments.Queries.GetById
         public string Description { get; set; }
 
         public string Status { get; set; }
+        public string Image { get; set; }
     }
 }

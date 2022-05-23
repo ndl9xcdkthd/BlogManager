@@ -1,17 +1,24 @@
 ﻿using BlogManager.Application.Constants;
+using BlogManager.Application.Extensions;
 using BlogManager.Application.Features.Departments.Queries.GetAllCached;
 using BlogManager.Application.Features.Employees.Commands.Create;
 using BlogManager.Application.Features.Employees.Commands.Delete;
 using BlogManager.Application.Features.Employees.Commands.Update;
+using BlogManager.Application.Features.Employees.Queries.GetAllActive;
 using BlogManager.Application.Features.Employees.Queries.GetAllCached;
+using BlogManager.Application.Features.Employees.Queries.GetAllDelete;
 using BlogManager.Application.Features.Employees.Queries.GetByDepartmentId;
 using BlogManager.Application.Features.Employees.Queries.GetById;
 using BlogManager.Web.Abstractions;
 using BlogManager.Web.Areas.Office.Models;
+using BlogManager.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogManager.Web.Areas.Office.Controller
@@ -27,7 +34,7 @@ namespace BlogManager.Web.Areas.Office.Controller
 
         public async Task<IActionResult> LoadAll()
         {
-            var response = await _mediator.Send(new GetAllEmployeeCachedQuery());
+            var response = await _mediator.Send(new GetAllActiveQuery());
             if (response.Succeeded)
             {
                 var viewModel = _mapper.Map<List<EmployeeViewModel>>(response.Data);
@@ -40,7 +47,7 @@ namespace BlogManager.Web.Areas.Office.Controller
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
         {
             var departmensResponse = await _mediator.Send(new GetAllDepartmentCacheQuery());
-
+            
             if (id == 0)
             {
                 var employeeViewModel = new EmployeeViewModel();
@@ -57,6 +64,7 @@ namespace BlogManager.Web.Areas.Office.Controller
                 if (response.Succeeded)
                 {
                     var employeeViewModel = _mapper.Map<EmployeeViewModel>(response.Data);
+                    
                     if (departmensResponse.Succeeded)
                     {
                         var department = _mapper.Map<List<DepartmentViewModel>>(departmensResponse.Data);
@@ -90,7 +98,13 @@ namespace BlogManager.Web.Areas.Office.Controller
                     var result = await _mediator.Send(updateEmployeeCommand);
                     if (result.Succeeded) _notify.Information($"Employee with ID {result.Data} Updated.");
                 }
-                var response = await _mediator.Send(new GetAllEmployeeCachedQuery());
+                if(Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    var image = file.OptimizeImageSize(700, 700);
+                    await _mediator.Send(new UpdateEmployeeImageCommand() { Id = id, Image = image });
+                }
+                var response = await _mediator.Send(new GetAllActiveQuery());
                 if (response.Succeeded)
                 {
                     var viewModel = _mapper.Map<List<EmployeeViewModel>>(response.Data);
@@ -109,6 +123,25 @@ namespace BlogManager.Web.Areas.Office.Controller
                 return new JsonResult(new { isValid = false, html = html });
             }
         }
+        [HttpPost]
+        public async Task<JsonResult> GetEmployeesAsync(DataTableAjaxPostModel model)
+        {
+            var response = await _mediator.Send(new GetAllEmployeeCachedQuery() { model = model});
+            if (response.Succeeded)
+            {
+                var viewmodel = _mapper.Map<List<EmployeeViewModel>>(response.Data);
+                var  = 
+                return Json(new
+                {
+                    draw = model.draw,
+                    recordsTotal = response.Item2,
+                    recordsFiltered = response.Item3,
+                    data = viewmodel
+                });
+            }
+
+            return null;
+        }
 
         [HttpPost]
         public async Task<JsonResult> OnPostDelete(int id)
@@ -117,7 +150,7 @@ namespace BlogManager.Web.Areas.Office.Controller
             if (deleteCommand.Succeeded)
             {
                 _notify.Information($"Employee with Id {id} Deleted.");
-                var response = await _mediator.Send(new GetAllEmployeeCachedQuery());
+                var response = await _mediator.Send(new GetAllActiveQuery());
                 if (response.Succeeded)
                 {
                     var viewModel = _mapper.Map<List<EmployeeViewModel>>(response.Data);
@@ -138,3 +171,4 @@ namespace BlogManager.Web.Areas.Office.Controller
         }
     }
 }
+

@@ -28,7 +28,7 @@ namespace BlogManager.Application.Features.Employees.Commands.Delete
             public async Task<Result<int>> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
             {
                 var employee = await _employeeRepository.GetByIdAsync(request.Id);
-                await _employeeRepository.DeleteAsync(employee);
+                await _employeeRepository.ReomveAsync(employee);
                 await _unitOfWork.Commit(cancellationToken);
                 return Result<int>.Success(employee.Id);
             }

@@ -17,5 +17,6 @@ namespace BlogManager.Application.Features.Employees.Queries.GetById
         public string Position { get; set; }
         public string Status { get; set; }
         public int DepartmentId { get; set; }
+        public byte[] Image { get; set; }
     }
 }

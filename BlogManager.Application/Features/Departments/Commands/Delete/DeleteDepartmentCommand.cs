@@ -35,10 +35,10 @@ namespace BlogManager.Application.Features.Departments.Commands.Delete
                 {
                     foreach(var employee in getEmployee)
                     {
-                        await _employeeRepository.DeleteAsync(employee);
+                        await _employeeRepository.ReomveAsync(employee);
                     }
                 }
-                await _departmentRepository.DeleteAsync(department);
+                await _departmentRepository.RemoveAsync(department);
                 await _unitOfWork.Commit(cancellationToken);
                 return Result<int>.Success(department.Id);
             }

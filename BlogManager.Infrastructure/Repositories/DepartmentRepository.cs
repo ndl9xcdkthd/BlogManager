@@ -36,6 +36,11 @@ namespace BlogManager.Infrastructure.Repositories
             return await _repository.Entities.Where(d => d.Id == departmentId).FirstOrDefaultAsync();
         }
 
+        public Task<List<Department>> GetListActiveAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<List<Department>> GetListAsync()
         {
             return _repository.Entities.ToListAsync();
@@ -46,6 +51,14 @@ namespace BlogManager.Infrastructure.Repositories
             await _repository.AddAsync(department);
             await _distributedCache.RemoveAsync(CacheKeys.DepartmentCacheKeys.ListKey);
             return department.Id;
+        }
+
+        public async Task RemoveAsync(Department department)
+        {
+            department.Status = "Delete";
+            await _repository.UpdateAsync(department);
+            await _distributedCache.RemoveAsync(CacheKeys.DepartmentCacheKeys.ListKey);
+            await _distributedCache.RemoveAsync(CacheKeys.DepartmentCacheKeys.GetKey(department.Id));
         }
 
         public async Task UpdateAsync(Department department)

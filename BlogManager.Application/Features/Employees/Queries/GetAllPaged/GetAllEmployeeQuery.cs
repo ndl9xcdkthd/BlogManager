@@ -36,7 +36,7 @@ namespace BlogManager.Application.Features.Employees.Queries.GetAllPaged
 
         public async Task<PaginatedResult<GetAllEmployeeResponse>> Handle(GetAllEmployeeQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<BlogManager.Domain.Entities.Catalog.Employee, GetAllEmployeeResponse>> expression = e => new GetAllEmployeeResponse
+            Expression<Func<Employee, GetAllEmployeeResponse>> expression = e => new GetAllEmployeeResponse
             {
                 Id = e.Id,
                 FristName = e.FristName,

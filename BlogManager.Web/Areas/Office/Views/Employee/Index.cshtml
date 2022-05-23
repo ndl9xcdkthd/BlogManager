@@ -12,28 +12,57 @@
                 <i class="fa fa-plus-square"></i> Create
             </a>
         }
-
         <a id="reload" class="btn btn-primary text-white">
             <i class="fa fas fa-bolt"></i>
             Reload
         </a>
     </div>
-    <div id="viewAll" class="card-body table-responsive">
+    <div class="card-body table-responsive">
+    <table id="employeeDatatable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Frist Name</th>
+                    <th>Last Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Gender</th>
+                    <th>Hire Date</th>
+                    <th>Position</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 @section Scripts
 {
     <script src="~/js/site.js"></script>
     <script>
-        $(document).ready(function () {
-            $("#employeeTable").DataTable();
-            loadData();
-            $('#reload').on('click', function () {
-                loadData();
+            $("#employeeDatatable").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "ajax": {
+                    "url": "/office/employee/GetEmployees",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "visible": true,
+                    "searchable": true
+                }],
+                "columns": [
+                    { "data": "id", "name": "Id", "autoWidth": true },
+                    { "data": "firstName", "name": "First Name", "autoWidth": true },
+                    { "data": "lastName", "name": "Last Name", "autoWidth": true },
+                    { "data": "dateOfBirth", "name": "Date Of Birth", "autoWidth": true },
+                    { "data": "gender", "name": "Gender", "autoWidth": true },
+                    { "data": "hireDate", "name": "Hire Date", "autoWidth": true },
+                    { "data": "position", "name": "Position", "autoWidth": true },
+                    { "data": "status", "name": "Status", "autoWidth": true },
+                ]
             });
-        });
-        function loadData() {
-            $('#viewAll').load('/Office/Employee/LoadAll');
-        }
+
     </script>
 }

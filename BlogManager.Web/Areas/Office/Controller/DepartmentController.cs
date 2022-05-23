@@ -6,8 +6,11 @@ using BlogManager.Application.Features.Departments.Queries.GetById;
 using BlogManager.Application.Features.Employees.Queries.GetByDepartmentId;
 using BlogManager.Web.Abstractions;
 using BlogManager.Web.Areas.Office.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static BlogManager.Application.Constants.Permissions;
 
@@ -87,7 +90,27 @@ namespace BlogManager.Web.Areas.Office.Controller
                 }
 
                 var reponse = await _mediator.Send(new GetAllDepartmentCacheQuery());
+                if(Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\wwwroot\\Files\\");
+                    bool basePathExists = System.IO.Directory.Exists(basePath);
 
+                    if (!basePathExists) Directory.CreateDirectory(basePath);
+
+                    var filePath = Path.Combine(basePath, file.FileName);
+                    
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+                        var image = file.FileName;
+                        await _mediator.Send(new UpdateDepartmentImageCommand() { Id = id, Image = image });
+                    }
+                }
                 if (reponse.Succeeded)
                 {
                     var viewModel = _mapper.Map<List<DepartmentViewModel>>(reponse.Data);

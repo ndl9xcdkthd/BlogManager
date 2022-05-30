@@ -80,14 +80,13 @@ namespace BlogManager.Infrastructure.Repositories
         public async Task<List<Employee>> GetListPageAsync(DataTableAjaxPostModel model)
         {
             var take = model.length;
-            var skip = model.length* (model.draw - 1);
+            var skip = model.start;
 
             var listEmployee = await _repository.GetAllAsync();
 
 
             var page = await _repository.Entities.Skip(skip).Take(take).ToListAsync();
-            //10(1-1)
-            //10(2-1)
+
             return page;
         }
 

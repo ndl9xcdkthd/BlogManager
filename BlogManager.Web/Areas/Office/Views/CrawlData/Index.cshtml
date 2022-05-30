@@ -1,0 +1,65 @@
+﻿
+@using BlogManager.Web.Areas.Office.Models
+@model ListCrawlDataViewModel
+
+<div class="container-fluid">
+<form action="" method="POST">
+  <div class="form-floating">
+  <textarea class="form-control" name="url" placeholder="Url" id="floatingTextarea2" style="height: 30% "></textarea>
+  </div>
+   <br/>
+   <input type="submit" class="btn btn-success" name="submit">
+</form>
+</div>
+<div class="card-body table-responsive">
+    <table id="departmentTable" class="table table-striped" width="100%"  cellspacing="0">
+    <thead>
+        <tr>
+            <th>Url</th>
+            <th>Title</th>
+            <th>Link</th>
+            <th>Content</th>
+        </tr>
+    </thead>
+    <tbody>
+
+      
+                @if(Model.CrawlDatas == null)
+                {
+
+                }
+                else
+                {
+                @foreach (var item in Model.CrawlDatas)
+                {
+                    <tr>
+                        <td>
+                        @item.Url
+                    </td>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                       @if(item.Links == null)
+                        {
+
+                        }
+                        else
+                        {
+                            foreach(var item1 in item.Links)
+                            {
+                                @item1.Link
+                            }
+                         }
+                    </td>
+                    <td>
+                        @item.Content
+                    </td>
+                    </tr> 
+                   }
+                }
+
+    </tbody>
+</table>
+</div>
+

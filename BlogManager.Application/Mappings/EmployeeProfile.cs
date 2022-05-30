@@ -6,6 +6,9 @@ using BlogManager.Application.Features.Employees.Queries.GetAllCached;
 using BlogManager.Application.Features.Employees.Queries.GetAllPaged;
 using BlogManager.Application.Features.Employees.Queries.GetAllActive;
 using BlogManager.Application.Features.Employees.Queries.GetAllDelete;
+using BlogManager.Application.Features.Employees.Commands.Update;
+using BlogManager.Application.Features.Employees.Queries.GetByDepartmentId;
+using BlogManager.Application.Features.Employees.Queries.GetAllJs;
 
 namespace BlogManager.Application.Mappings
 {
@@ -14,8 +17,11 @@ namespace BlogManager.Application.Mappings
         public EmployeeProfile()
         {
             CreateMap<CreateEmployeeCommand, Employee>().ReverseMap();
-            CreateMap<GetAllActiveRpsponse, Employee>().ReverseMap();
+            CreateMap<GetAllJsRepose, Employee>().ReverseMap();
             CreateMap<GetAllDeleteReponse, Employee>().ReverseMap();
+            CreateMap<GetAllActiveRpsponse, Employee>().ReverseMap();
+            CreateMap<GetEmployeeByDepartmentIdQuery, Employee>().ReverseMap();
+            CreateMap<UpdateEmployeeCommand, Employee>().ReverseMap();
             CreateMap<GetAllEmployeeCachedResponse, Employee>().ReverseMap();
             CreateMap<GetAllEmployeeResponse, Employee>().ReverseMap();
             CreateMap<GetEmployeeByIdResponse, Employee>().ReverseMap();

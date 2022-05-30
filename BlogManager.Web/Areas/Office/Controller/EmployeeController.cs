@@ -7,6 +7,7 @@ using BlogManager.Application.Features.Employees.Commands.Update;
 using BlogManager.Application.Features.Employees.Queries.GetAllActive;
 using BlogManager.Application.Features.Employees.Queries.GetAllCached;
 using BlogManager.Application.Features.Employees.Queries.GetAllDelete;
+using BlogManager.Application.Features.Employees.Queries.GetAllJs;
 using BlogManager.Application.Features.Employees.Queries.GetByDepartmentId;
 using BlogManager.Application.Features.Employees.Queries.GetById;
 using BlogManager.Web.Abstractions;
@@ -126,21 +127,18 @@ namespace BlogManager.Web.Areas.Office.Controller
         [HttpPost]
         public async Task<JsonResult> GetEmployeesAsync(DataTableAjaxPostModel model)
         {
-            var response = await _mediator.Send(new GetAllEmployeeCachedQuery() { model = model});
-            if (response.Succeeded)
-            {
-                var viewmodel = _mapper.Map<List<EmployeeViewModel>>(response.Data);
-                var  = 
-                return Json(new
-                {
-                    draw = model.draw,
-                    recordsTotal = response.Item2,
-                    recordsFiltered = response.Item3,
-                    data = viewmodel
-                });
-            }
+            var response = await _mediator.Send(new GetAllJsQuery() { model = model});
 
-            return null;
+            var viewmodel = _mapper.Map<List<EmployeeViewModel>>(response.Item1);
+                 
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = response.Item2,
+                recordsFiltered = response.Item2,
+                data = viewmodel
+            });
         }
 
         [HttpPost]

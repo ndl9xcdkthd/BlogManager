@@ -54,11 +54,9 @@ namespace BlogManager.Infrastructure.CacheRepositories
         {
             string cacheKey = EmployeeCacheKeys.ListKey;
             var employeeList = await _distributedCache.GetAsync<List<Employee>>(cacheKey);
-            if (employeeList == null)
-            {
-                employeeList = await _employeeRepository.GetListPageAsync(model);
-                await _distributedCache.SetAsync(cacheKey, employeeList);
-            }
+
+            employeeList = await _employeeRepository.GetListPageAsync(model);
+            await _distributedCache.SetAsync(cacheKey, employeeList);
 
             return employeeList;
         }
